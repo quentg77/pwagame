@@ -3,6 +3,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
 
+	// make server public and open it at localhost
+	devServer: {
+		public: 'localhost:8080',
+		host: '0.0.0.0'
+	},
+
 	// webpack will take the files from ./src/index
 	entry: './src/index',
 
