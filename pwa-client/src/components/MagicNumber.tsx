@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useInput from "../hooks/userInput";
 
 interface Props {
 	io: SocketIOClient.Socket;
@@ -11,7 +12,7 @@ let eventLoaded = false;
 const MagicNumber = (props: Props) => {
 	const { io, nickname, gameStarted } = props;
 
-	const [number, setNumber] = useState("");
+	const number = useInput("");
 	const [resultMessage, setResultMessage] = useState("");
 	const [displayInput, setDisplayInput] = useState(true);
 
@@ -36,12 +37,8 @@ const MagicNumber = (props: Props) => {
 		eventLoaded = true;
 	}
 
-	const handleNickname = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setNumber(event.target.value);
-	};
-
 	const sendNumber = () => {
-		io.emit("event::testNumber", number);
+		io.emit("event::testNumber", number.value);
 	};
 
 	return (
@@ -58,7 +55,7 @@ const MagicNumber = (props: Props) => {
 					{
 						displayInput &&
 						<>
-							<input className="input" type="number" onChange={handleNickname} value={number} />
+							<input className="input" type="number" {...number} />
 							<a className="button is-info" onClick={sendNumber}>Send</a>
 						</>
 					}
